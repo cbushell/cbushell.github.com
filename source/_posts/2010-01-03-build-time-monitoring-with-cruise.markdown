@@ -14,7 +14,7 @@ One of Cruise’s strongest features is its RESTful API which gives us the abili
 
 I’ve been a big fan of [jQuery](http://jquery.com) for some time, and I recently stumbled across [Flot](http://code.google.com/p/flot), which allows you to plot various different kinds of chart directly in Javascript. I’ve combined the two, with some help from the excellent [Datejs](http://www.datejs.com) library to consume the data from the Cruise API and plot the results.
 
-{% img http://www.flickr.com/photos/56223053@N06/519803371 %}
+{% img https://s3.amazonaws.com/anotherdeveloperblog/build-time-monitoring-with-cruise/build-times.jpeg %}
 
 The build for our main application is divided into six stages within a single [pipeline](http://www.thoughtworks-studios.com/cruise-release-management/features-benefit). I’ve chosen to plot each stage as a separate series on the same chart, the y-axis shows the build time in minutes and seconds, and the x-axis the date on which the build took place. I’m not going to focus on we can learn form this chart in this post, but instead on how I created the chart itself. Here’s the Javascript I ended up with.
 
