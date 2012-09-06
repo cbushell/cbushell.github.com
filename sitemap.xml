@@ -1,11 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://cbushell.github.com/blog/2010/01/03/build-time-monitoring-with-cruise/</loc>
+        <lastmod>2012-09-05T09:58:08-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://cbushell.github.com/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010/
+        </loc>
+        <lastmod>2012-09-04T21:13:08-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://cbushell.github.com/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/
+        </loc>
+        <lastmod>2012-09-04T21:13:23-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cbushell.github.com/blog/2010/03/28/pragmatic-pair-programming/</loc>
+        <lastmod>2012-09-04T21:13:51-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cbushell.github.com/blog/2010/11/28/rest-in-practice-tutorial/</loc>
+        <lastmod>2012-09-04T21:14:12-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://cbushell.github.com/blog/archives/</loc>
-        <lastmod>2012-09-04T12:52:48-07:00</lastmod>
+        <lastmod>2012-09-05T09:58:08-07:00</lastmod>
     </url>
     <url>
         <loc>http://cbushell.github.com/</loc>
-        <lastmod>2012-09-04T12:52:48-07:00</lastmod>
+        <lastmod>2012-09-05T09:58:08-07:00</lastmod>
     </url>
 </urlset>

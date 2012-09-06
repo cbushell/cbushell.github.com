@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Anti Patterns of Enterprise Application Architecture: The Database Application - Another Developer Blog</title>
+  <meta name="author" content="Chris Bushell">
+
+  
+  <meta name="description" content="Most large enterprises enforce a gated deployment process to take an application from development to production. That’s to say that an application &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cbushell.github.com/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Another Developer Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Another Developer Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cbushell.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Anti Patterns of Enterprise Application Architecture: The Database Application</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-11T21:00:00-08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Most large enterprises enforce a gated deployment process to take an application from development to production. That’s to say that an application must pass through a number of different environments before it gets signed off to enter the production environment.</p>
+
+<p>For example, an application developed on a desktop machine must first be deployed to a QA environment, then a UAT environment and maybe a Performance Testing environment before finally being given the OK to move to production, for the whole world to see.</p>
+
+<p>This process usually requires sign off from at least one manager, probably more. Coupled with the fact that corporate IT departments are often divided into areas of functional responsibility (think database, application server, security etc.), and moving the various components of an application through each environment requires the co-ordination of several different teams. The result is that taking an application to production is not a quick process, and usually ends up taking several days, if not weeks.</p>
+
+<p>Business sponsors of IT projects end up feeling frustrated by how long it takes to make even minor changes to the applications that they pay for, and developers are left feeling like they’re letting their sponsors down.</p>
+
+<p>The path of least resistance to deploying anything to the production environment often emerges as the database. After all, that’s only a single layer of your application, right? So, the process of moving database changes to production avoids the need to co-ordinate several different teams and deal with complications arising from error prone application server deployments, and other potential points of failure.</p>
+
+<p>The path of least resistance to deploying anything to the production environment often emerges as the database. After all, that’s only a single layer of your application, right? So, the process of moving database changes to production avoids the need to co-ordinate several different teams and deal with complications arising from error prone application server deployments, and other potential points of failure.</p>
+
+<p>What people often over look is that the more and more configuration you push into the database, the more and more the application you’re developing starts to resemble an interpreter. It becomes possible to configure virtually every feature your application has to offer from the database. At this point your application starts becoming the equivalent of the JVM or .Net run-time, and the database is really just a glorified source code repository playing host to the code that your application interprets at run-time.</p>
+
+<p>Take it a step further, and why not move some of the logic behind your application into the database. It’s amazing what you can do with a few thousands of lines of stored procedure code!</p>
+
+<p>But have you ever tried to debug several thousand lines of stored procedure? I have, and I blame my thinning hairline on the experience.</p>
+
+<p>And testing? Well, that just seems to get slowly forgotten. Given that we already know it’s so easy to make changes to the production database, so what if things go wrong in production. It’s easy enough to correct mistakes by pushing out another untested database change straight to production. A few hours (or maybe days) of downtime isn’t that bad, is it?</p>
+
+<p>We’re all in agreement that separating application logic from configuration is a good thing that allows us to re-use code we’ve written, but let’s not take things too far. Of course, the ideal solution would be to change the process so that moving an application to production is quicker, but we’re rarely in a position to do this. Instead of trying to work around the corporate red tape that makes it difficult to deploy changes to production, the best we can do in this situation is to oil the gears that need to turn to get things done.</p>
+
+<p>That faceless application server support guy you always email to get your application deployed to QA? Why not take him out to lunch and get to know him? The security guy you always email to get ports opened for your application to function correctly? How was his weekend? And how are his kids going at school? Pick up the phone and find out. You’ll be amazed how much more quickly you can get your application moved through different environments and to production when you have a relationship with the people you need to make it happen. Instead of compromising the quality of your application by pushing everything to the database, why not give it a try?</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Chris Bushell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-11T21:00:00-08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2010</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cbushell.github.com/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/" data-via="chrisbushelloz" data-counturl="http://cbushell.github.com/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010/" title="Previous Post: Presenting At Melbourne Patterns Group 3rd February 2010">&laquo; Presenting At Melbourne Patterns Group 3rd February 2010</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/03/28/pragmatic-pair-programming/" title="Next Post: Pragmatic Pair Programming">Pragmatic Pair Programming &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2010/11/28/rest-in-practice-tutorial/">REST in Practice Tutorial</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/03/28/pragmatic-pair-programming/">Pragmatic Pair Programming</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/">Anti Patterns of Enterprise Application Architecture: The Database Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010/">Presenting At Melbourne Patterns Group 3rd February 2010</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/01/03/build-time-monitoring-with-cruise/">Build Time Monitoring With Cruise</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/cbushell">@cbushell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'cbushell',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("chrisbushelloz", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/chrisbushelloz" class="twitter-follow-button" data-show-count="false">Follow @chrisbushelloz</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Chris Bushell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'anotherdeveloperblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://cbushell.github.com/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/';
+        var disqus_url = 'http://cbushell.github.com/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

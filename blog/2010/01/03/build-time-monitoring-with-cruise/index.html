@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Build Time Monitoring With Cruise - Another Developer Blog</title>
+  <meta name="author" content="Chris Bushell">
+
+  
+  <meta name="description" content="We’ve been using Cruise to handle continuous integration duties on my current project for several months now. One thing that Cruise doesn’t support &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cbushell.github.com/blog/2010/01/03/build-time-monitoring-with-cruise/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Another Developer Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Another Developer Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cbushell.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Build Time Monitoring With Cruise</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-03T20:07:00-08:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>We’ve been using <a href="http://www.thoughtworks-studios.com/cruise-release-management">Cruise</a> to handle continuous integration duties on my current project for several months now. One thing that Cruise doesn’t support out of the box is any way to easily monitor the trend in build duration over time. While we as developers get a pretty good feel for the build getting slower and slower, we don’t have any real statistics that we can use as evidence to back this up.</p>
+
+<p>I feel it’s very important to have a quick build, and so having visibility over build times is essential. If we’re going to make any attempt to speed up a slow build, how can we measure any improvement we make without having easy access to these statistics?</p>
+
+<p>One of Cruise’s strongest features is its RESTful API which gives us the ability to integrate with it. Cruise allows access to information about past builds, including the duration which the build took to run, through its <a href="http://www.thoughtworks-studios.com/cruise-continuous-integration/1.2/help/Properties_API.html">Properties API</a>. This API provides access to build data in CSV format and the fact that it’s all accessible through a simple HTTP client means that it’s really easy to consume and use as you wish.</p>
+
+<p>I’ve been a big fan of <a href="http://jquery.com">jQuery</a> for some time, and I recently stumbled across <a href="http://code.google.com/p/flot">Flot</a>, which allows you to plot various different kinds of chart directly in Javascript. I’ve combined the two, with some help from the excellent <a href="http://www.datejs.com">Datejs</a> library to consume the data from the Cruise API and plot the results.</p>
+
+<p><img src="https://s3.amazonaws.com/anotherdeveloperblog/build-time-monitoring-with-cruise/build-times.jpeg"></p>
+
+<p>The build for our main application is divided into six stages within a single <a href="http://www.thoughtworks-studios.com/cruise-release-management/features-benefit">pipeline</a>. I’ve chosen to plot each stage as a separate series on the same chart, the y-axis shows the build time in minutes and seconds, and the x-axis the date on which the build took place. I’m not going to focus on we can learn form this chart in this post, but instead on how I created the chart itself. Here’s the Javascript I ended up with.</p>
+
+<div><script src='https://gist.github.com/709705.js?file='></script>
+<noscript><pre><code>$(document).ready(
+    function() {
+        var builds = [
+            {   url: &quot;/build_results/start&quot;,
+                legend: &quot;Start&quot;
+            }
+        ];
+
+        $.each(builds, function(build_index, build) {
+            $.get(build.url, function(data) {
+                var rows = data.split(/\n/);
+                var data_series = [];
+
+                $.each(rows, function(row_index, row) {
+                    if (row_index &gt; 0) {
+                        var tokens = row.split(&quot;,&quot;);
+                        var build_duration = tokens[1];
+                        var build_start_time = Date.parse(tokens[8]);
+                        var build_status = tokens[3];
+
+                        if (build_status == 'Passed') {
+                            data_series.push([build_start_time.getTime(), build_duration]);
+                        }
+                    }
+                });
+
+                all_builds_series.push({label: build.legend, data: data_series});
+            });
+        });
+    }).ajaxStop(function() {
+        $.plot($(&quot;#all_builds&quot;), all_builds_series, {
+            xaxis: { mode: &quot;time&quot; },
+            yaxis: { tickFormatter:
+                        function(milliseconds) {
+                            return new TimeSpan(milliseconds * 1000).toString(&quot;mm:ss&quot;);
+                        }},
+            legend: {   show: true,
+                        noColumns: all_builds_series.length }
+        });
+    });</code></pre></noscript></div>
+
+
+<p>I use a simple data structure to configure the URL to the Cruise properties API which will serve up the CSV (I’ve masked it in the code example), and the label which will be used to identify the series in the chart legend. I’ve only shown a single series in the code, but any number could be added to the array. Then its a case of iterating over each of the builds, using jQuery to make an Ajax call to get the CSV and parsing the result.</p>
+
+<p>You’ll see I use Datejs to parse the timestamp indicating when the build took place. Cruise returns the timestamp in the format “2009-11-16 12:04:19 +1100”, which Datejs handles with ease.</p>
+
+<p>You’ll also notice I only plot successful builds. I included all builds originally, but the charts became too noisy, and it made seeing the overall trend of build times difficult when failed builds were also shown.</p>
+
+<p>Finally, I make use of the ajaxStop jQuery event, which is triggered when all Ajax requests are complete, at which point I plot all of the results using Flot. I’ve used a custom formatter for the y-axis, which uses Timejs (part of Datejs), to convert the build time which Cruise supplies as a number of seconds, to a more readable minutes and seconds format. I was surprised how much of a performance hit I got when rendering the chart with the custom formatter, but haven’t looked through the Timejs code to work out exactly why this is.</p>
+
+<p>Within the body of my HTML page, I have a div which the result is rendered into. You’ll see it’s easy to tweak the size of the chart and other aspects to fit your requirements.</p>
+
+<div><script src='https://gist.github.com/709744.js?file='></script>
+<noscript><pre><code>&lt;div id=&quot;all_builds&quot; style=&quot;width: 800px; height: 600px; position: relative;&quot;&gt;&lt;/div&gt;</code></pre></noscript></div>
+
+
+<p>I see this kind of chart working well as an <a href="http://alistair.cockburn.us/Information+radiator">Information Radiator</a>, giving visibilty over the trend in build time to the whole team. It would be easy to integrate this as part of your continuous integration process, and have the chart automatically redraw periodically to keep up to date with new builds. Utimately, this kind of information can be used to highlight increasing inefficiencies development teams, and their customers feel as builds get slower and to measure improvements as we work towards making the build faster.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Chris Bushell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-03T20:07:00-08:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/continuous-integration/'>Continuous Integration</a>, <a class='category' href='/blog/categories/devops/'>DevOps</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cbushell.github.com/blog/2010/01/03/build-time-monitoring-with-cruise/" data-via="chrisbushelloz" data-counturl="http://cbushell.github.com/blog/2010/01/03/build-time-monitoring-with-cruise/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010/" title="Next Post: Presenting At Melbourne Patterns Group 3rd February 2010">Presenting At Melbourne Patterns Group 3rd February 2010 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2010/11/28/rest-in-practice-tutorial/">REST in Practice Tutorial</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/03/28/pragmatic-pair-programming/">Pragmatic Pair Programming</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/">Anti Patterns of Enterprise Application Architecture: The Database Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010/">Presenting At Melbourne Patterns Group 3rd February 2010</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/01/03/build-time-monitoring-with-cruise/">Build Time Monitoring With Cruise</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/cbushell">@cbushell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'cbushell',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("chrisbushelloz", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/chrisbushelloz" class="twitter-follow-button" data-show-count="false">Follow @chrisbushelloz</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Chris Bushell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'anotherdeveloperblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://cbushell.github.com/blog/2010/01/03/build-time-monitoring-with-cruise/';
+        var disqus_url = 'http://cbushell.github.com/blog/2010/01/03/build-time-monitoring-with-cruise/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

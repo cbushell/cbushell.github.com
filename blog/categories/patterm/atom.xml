@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Patterm | Another Developer Blog]]></title>
+  <link href="http://cbushell.github.com/blog/categories/patterm/atom.xml" rel="self"/>
+  <link href="http://cbushell.github.com/"/>
+  <updated>2012-09-05T20:06:03-07:00</updated>
+  <id>http://cbushell.github.com/</id>
+  <author>
+    <name><![CDATA[Chris Bushell]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Presenting At Melbourne Patterns Group 3rd February 2010]]></title>
+    <link href="http://cbushell.github.com/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010/"/>
+    <updated>2010-01-26T21:00:00-08:00</updated>
+    <id>http://cbushell.github.com/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010</id>
+    <content type="html"><![CDATA[<p>Following on from my last post, I’m going to be presenting on continuous integration and Flot at the <a href="http://melbournepatterns.org/">Melbourne Patterns Group</a> meeting next Wednesday. We’re meeting at Thoughtworks, Level 15, 303 Collins Street, Melbourne, Vic, 3000 from 6:30pm. Come along for the presentations and a free feed.</p>
+]]></content>
+  </entry>
+  
+</feed>

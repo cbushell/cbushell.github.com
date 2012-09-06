@@ -9,7 +9,7 @@
   <meta name="author" content="Chris Bushell">
 
   
-  <meta name="description" content="Blog Archives Recent Posts GitHub Repos Status updating&#8230; @cbushell on GitHub $.domReady(function(){ if (!window.jXHR){ var jxhr = document. &hellip;">
+  <meta name="description" content="I was fortunate enough to attend a REST in Practice tutorial run by Jim Webber yesterday. The material was taken from the recently published book of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +63,299 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/11/28/rest-in-practice-tutorial/">REST in Practice Tutorial</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-28T21:01:00-08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was fortunate enough to attend a <a href="http://oreilly.com/catalog/9780596805838/">REST in Practice</a> tutorial run by <a href="http://jim.webber.name/">Jim Webber</a> yesterday. The material was taken from the recently published book of the same name co-authored by <a href="http://savas.me/">Savas Parastatidis</a> and <a href="http://iansrobinson.com/">Ian Robinson</a>.</p>
+
+<p>As you might expect, the tutorial followed the contents of the book closely and used the <a href="http://martinfowler.com/articles/richardsonMaturityModel.html">Richardson model</a> as it’s outline. The tone for the tutorial was set with a discussion about the state of most enterprise architectures today, covering the Richardson level 0 stuff. The conclusion was that most enterprise architectures go out of their way to hide the network from us, which has resulted in some very complex solutions to inherently difficult problems (scalability, distributed computing, error handling etc.). The result being even more complexity.</p>
+
+<p>It turns out that <a href="http://www.w3.org/People/Berners-Lee/">Tim Berners-Lee</a> solved a lot of these problems over 20 years ago when he designed the foundations of the web. Jim continued to explain the web as a platform, introducing resources, HTTP verbs and hypermedia/HATEOAS as we worked through Richardson levels 1-3. Along the way we covered content types, response codes, scalability, caching, ATOM and security.</p>
+
+<p>I still haven’t read REST In Practice yet (it’s top of my reading list as I write this), but got a lot out of the tutorial – a lot of practical advice which I can take away and use immediately. Jim was as entertaining as always, and a great presenter (although a little disappointed at times when checking the cricket scores).</p>
+
+<p>Jim’s running the tutorial with Ian as part of <a href="http://www.yowconference.com.au/">YOW!2010</a> this week in Australia, and there have been <a href="http://www.thoughtworks.com/rest-in-practice/">other dates globally</a>. I’d highly recommend this tutorial for anyone working on distributed systems, in the enterprise or otherwise.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/03/28/pragmatic-pair-programming/">Pragmatic Pair Programming</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-28T21:00:00-07:00" pubdate data-updated="true">Mar 28<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The reasons for pairing pair programming are well documented, and while I generally believe it to be a good way to develop software, I don’t believe in a one size fits all approach to anything.</p>
+
+<p>One of the main arguments for pair programming is knowledge sharing. Frequently rotating people across different stories gives them broader exposure to the system than they may otherwise receive. This benefits the team as everyone becomes familiar with all aspects of the system and anyone can support any part of the system as needed. That’s the theory, anyway.</p>
+
+<p>I’ve been thinking recently that we can achieve the same result providing we are able to consistently produce small stories or tasks which take no more than a couple of days to complete. This gives us the the benefits of rotation as individual developers are able to move on to new stories at a quick and consistent pace. Small, consistently sized stories also have the benefit of helping the team to achieve flow. By that, I mean features can be pulled through the development, testing and sign off process at a steady pace, and bottlenecks in this system are avoided.</p>
+
+<p>Another argument for pair programming I’ve been considering is that it produces better design and makes tough problems easier to solve. After all, two minds are better than one, aren’t they?</p>
+
+<p>While many developers may be able to solve the vast majority of problems they face, as they become more experienced they learn to recognise good solutions and bad ones, and everything in between. I think a mature developer should be disciplined enough to recognise when they don’t know the best solution to a particular problem without the need for pairing.</p>
+
+<p>A less mature developer may go ahead and implement the bad solution, and get the job done albeit in a way that is likely to have longer term negative consequences for the project. A good developer will stop to informally run through their thought process with a colleague, or gather everyone around a whiteboard to discuss options. This again helps with knowledge sharing within the team.</p>
+
+<p>While I think pairing is beneficial, I take a pragmatic approach to doing it. Sometimes a team can be more productive without pairing, and at other times paring can make a team more productive. I don’t believe that pairing needs to be used by all members of a team all the time. If a couple of people decide to pair, that doesn’t mean everyone else has to. Making rules like this can actually have a negative effect on the team.</p>
+
+<p>It’s not that some developers are above pairing, while others need supervision. It’s about being able to identify the best approach to the task in hand, and being able to adapt as necessary.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/">Anti Patterns of Enterprise Application Architecture: The Database Application</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-11T21:00:00-08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Most large enterprises enforce a gated deployment process to take an application from development to production. That’s to say that an application must pass through a number of different environments before it gets signed off to enter the production environment.</p>
+
+<p>For example, an application developed on a desktop machine must first be deployed to a QA environment, then a UAT environment and maybe a Performance Testing environment before finally being given the OK to move to production, for the whole world to see.</p>
+
+<p>This process usually requires sign off from at least one manager, probably more. Coupled with the fact that corporate IT departments are often divided into areas of functional responsibility (think database, application server, security etc.), and moving the various components of an application through each environment requires the co-ordination of several different teams. The result is that taking an application to production is not a quick process, and usually ends up taking several days, if not weeks.</p>
+
+<p>Business sponsors of IT projects end up feeling frustrated by how long it takes to make even minor changes to the applications that they pay for, and developers are left feeling like they’re letting their sponsors down.</p>
+
+<p>The path of least resistance to deploying anything to the production environment often emerges as the database. After all, that’s only a single layer of your application, right? So, the process of moving database changes to production avoids the need to co-ordinate several different teams and deal with complications arising from error prone application server deployments, and other potential points of failure.</p>
+
+<p>The path of least resistance to deploying anything to the production environment often emerges as the database. After all, that’s only a single layer of your application, right? So, the process of moving database changes to production avoids the need to co-ordinate several different teams and deal with complications arising from error prone application server deployments, and other potential points of failure.</p>
+
+<p>What people often over look is that the more and more configuration you push into the database, the more and more the application you’re developing starts to resemble an interpreter. It becomes possible to configure virtually every feature your application has to offer from the database. At this point your application starts becoming the equivalent of the JVM or .Net run-time, and the database is really just a glorified source code repository playing host to the code that your application interprets at run-time.</p>
+
+<p>Take it a step further, and why not move some of the logic behind your application into the database. It’s amazing what you can do with a few thousands of lines of stored procedure code!</p>
+
+<p>But have you ever tried to debug several thousand lines of stored procedure? I have, and I blame my thinning hairline on the experience.</p>
+
+<p>And testing? Well, that just seems to get slowly forgotten. Given that we already know it’s so easy to make changes to the production database, so what if things go wrong in production. It’s easy enough to correct mistakes by pushing out another untested database change straight to production. A few hours (or maybe days) of downtime isn’t that bad, is it?</p>
+
+<p>We’re all in agreement that separating application logic from configuration is a good thing that allows us to re-use code we’ve written, but let’s not take things too far. Of course, the ideal solution would be to change the process so that moving an application to production is quicker, but we’re rarely in a position to do this. Instead of trying to work around the corporate red tape that makes it difficult to deploy changes to production, the best we can do in this situation is to oil the gears that need to turn to get things done.</p>
+
+<p>That faceless application server support guy you always email to get your application deployed to QA? Why not take him out to lunch and get to know him? The security guy you always email to get ports opened for your application to function correctly? How was his weekend? And how are his kids going at school? Pick up the phone and find out. You’ll be amazed how much more quickly you can get your application moved through different environments and to production when you have a relationship with the people you need to make it happen. Instead of compromising the quality of your application by pushing everything to the database, why not give it a try?</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010/">Presenting at Melbourne Patterns Group 3rd February 2010</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-26T21:00:00-08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Following on from my last post, I’m going to be presenting on continuous integration and Flot at the <a href="http://melbournepatterns.org/">Melbourne Patterns Group</a> meeting next Wednesday. We’re meeting at Thoughtworks, Level 15, 303 Collins Street, Melbourne, Vic, 3000 from 6:30pm. Come along for the presentations and a free feed.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/03/build-time-monitoring-with-cruise/">Build Time Monitoring With Cruise</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-03T20:07:00-08:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We’ve been using <a href="http://www.thoughtworks-studios.com/cruise-release-management">Cruise</a> to handle continuous integration duties on my current project for several months now. One thing that Cruise doesn’t support out of the box is any way to easily monitor the trend in build duration over time. While we as developers get a pretty good feel for the build getting slower and slower, we don’t have any real statistics that we can use as evidence to back this up.</p>
+
+<p>I feel it’s very important to have a quick build, and so having visibility over build times is essential. If we’re going to make any attempt to speed up a slow build, how can we measure any improvement we make without having easy access to these statistics?</p>
+
+<p>One of Cruise’s strongest features is its RESTful API which gives us the ability to integrate with it. Cruise allows access to information about past builds, including the duration which the build took to run, through its <a href="http://www.thoughtworks-studios.com/cruise-continuous-integration/1.2/help/Properties_API.html">Properties API</a>. This API provides access to build data in CSV format and the fact that it’s all accessible through a simple HTTP client means that it’s really easy to consume and use as you wish.</p>
+
+<p>I’ve been a big fan of <a href="http://jquery.com">jQuery</a> for some time, and I recently stumbled across <a href="http://code.google.com/p/flot">Flot</a>, which allows you to plot various different kinds of chart directly in Javascript. I’ve combined the two, with some help from the excellent <a href="http://www.datejs.com">Datejs</a> library to consume the data from the Cruise API and plot the results.</p>
+
+<p><img src="https://s3.amazonaws.com/anotherdeveloperblog/build-time-monitoring-with-cruise/build-times.jpeg"></p>
+
+<p>The build for our main application is divided into six stages within a single <a href="http://www.thoughtworks-studios.com/cruise-release-management/features-benefit">pipeline</a>. I’ve chosen to plot each stage as a separate series on the same chart, the y-axis shows the build time in minutes and seconds, and the x-axis the date on which the build took place. I’m not going to focus on we can learn form this chart in this post, but instead on how I created the chart itself. Here’s the Javascript I ended up with.</p>
+
+<div><script src='https://gist.github.com/709705.js?file='></script>
+<noscript><pre><code>$(document).ready(
+    function() {
+        var builds = [
+            {   url: &quot;/build_results/start&quot;,
+                legend: &quot;Start&quot;
+            }
+        ];
+
+        $.each(builds, function(build_index, build) {
+            $.get(build.url, function(data) {
+                var rows = data.split(/\n/);
+                var data_series = [];
+
+                $.each(rows, function(row_index, row) {
+                    if (row_index &gt; 0) {
+                        var tokens = row.split(&quot;,&quot;);
+                        var build_duration = tokens[1];
+                        var build_start_time = Date.parse(tokens[8]);
+                        var build_status = tokens[3];
+
+                        if (build_status == 'Passed') {
+                            data_series.push([build_start_time.getTime(), build_duration]);
+                        }
+                    }
+                });
+
+                all_builds_series.push({label: build.legend, data: data_series});
+            });
+        });
+    }).ajaxStop(function() {
+        $.plot($(&quot;#all_builds&quot;), all_builds_series, {
+            xaxis: { mode: &quot;time&quot; },
+            yaxis: { tickFormatter:
+                        function(milliseconds) {
+                            return new TimeSpan(milliseconds * 1000).toString(&quot;mm:ss&quot;);
+                        }},
+            legend: {   show: true,
+                        noColumns: all_builds_series.length }
+        });
+    });</code></pre></noscript></div>
+
+
+<p>I use a simple data structure to configure the URL to the Cruise properties API which will serve up the CSV (I’ve masked it in the code example), and the label which will be used to identify the series in the chart legend. I’ve only shown a single series in the code, but any number could be added to the array. Then its a case of iterating over each of the builds, using jQuery to make an Ajax call to get the CSV and parsing the result.</p>
+
+<p>You’ll see I use Datejs to parse the timestamp indicating when the build took place. Cruise returns the timestamp in the format “2009-11-16 12:04:19 +1100”, which Datejs handles with ease.</p>
+
+<p>You’ll also notice I only plot successful builds. I included all builds originally, but the charts became too noisy, and it made seeing the overall trend of build times difficult when failed builds were also shown.</p>
+
+<p>Finally, I make use of the ajaxStop jQuery event, which is triggered when all Ajax requests are complete, at which point I plot all of the results using Flot. I’ve used a custom formatter for the y-axis, which uses Timejs (part of Datejs), to convert the build time which Cruise supplies as a number of seconds, to a more readable minutes and seconds format. I was surprised how much of a performance hit I got when rendering the chart with the custom formatter, but haven’t looked through the Timejs code to work out exactly why this is.</p>
+
+<p>Within the body of my HTML page, I have a div which the result is rendered into. You’ll see it’s easy to tweak the size of the chart and other aspects to fit your requirements.</p>
+
+<div><script src='https://gist.github.com/709744.js?file='></script>
+<noscript><pre><code>&lt;div id=&quot;all_builds&quot; style=&quot;width: 800px; height: 600px; position: relative;&quot;&gt;&lt;/div&gt;</code></pre></noscript></div>
+
+
+<p>I see this kind of chart working well as an <a href="http://alistair.cockburn.us/Information+radiator">Information Radiator</a>, giving visibilty over the trend in build time to the whole team. It would be easy to integrate this as part of your continuous integration process, and have the chart automatically redraw periodically to keep up to date with new builds. Utimately, this kind of information can be used to highlight increasing inefficiencies development teams, and their customers feel as builds get slower and to measure improvements as we work towards making the build faster.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -74,6 +367,26 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2010/11/28/rest-in-practice-tutorial/">REST in Practice Tutorial</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/03/28/pragmatic-pair-programming/">Pragmatic Pair Programming</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/02/11/anti-patterns-of-enterprise-application-architecture-the-database-application/">Anti Patterns of Enterprise Application Architecture: The Database Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/01/26/presenting-at-melbourne-patterns-group-3rd-february-2010/">Presenting At Melbourne Patterns Group 3rd February 2010</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/01/03/build-time-monitoring-with-cruise/">Build Time Monitoring With Cruise</a>
+      </li>
     
   </ul>
 </section>
@@ -140,6 +453,19 @@
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'anotherdeveloperblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
